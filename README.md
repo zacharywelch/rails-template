@@ -1,29 +1,16 @@
-# rails-api-template
+# rails-template
 
-A rails [application template](http://guides.rubyonrails.org/rails_application_templates.html) for APIs.
-
-To see a sample of using Rails as an API check out [rails-api](https://cagit.careerbuilder.com/zwelch/rails-api) sample.
-
-## Installation
-
-Before generating your API, you will need [rails-api](https://github.com/rails-api/rails-api) gem installed
-
-```ruby
-gem install 'rails-api'
-```
+A rails [application template](http://guides.rubyonrails.org/rails_application_templates.html) for web apps.
 
 ## Usage
 
 ```ruby
-rails-api new [api_name] --skip-test-unit -m https://raw.githubusercontent.com/zacharywelch/rails-api-template/master/template.rb
+rails new [app_name] --skip-test-unit -m https://raw.githubusercontent.com/zacharywelch/rails-template/master/template.rb
 ```
 
 ## What it does
 
 1. Adds the following gems
-  - [rails-api](https://github.com/rails-api/rails-api)
-  - [jbuilder](https://github.com/rails/jbuilder)
-  - [responders](https://github.com/plataformatec/responders)
   - [faker](https://github.com/stympy/faker)
   - [kaminari](https://github.com/amatsuda/kaminari)
   - [annotate](https://github.com/ctran/annotate_models)
@@ -35,41 +22,26 @@ rails-api new [api_name] --skip-test-unit -m https://raw.githubusercontent.com/z
   - [capistrano-bundler](https://github.com/capistrano/bundler)
   - [solano](https://github.com/solanolabs/solano)
 
-  Several custom gems add behaviors needed by CareerBuilder APIs
-  - [json_responder](https://cagit.careerbuilder.com/zwelch/json_responder)
-  - [pagination_responder](https://cagit.careerbuilder.com/zwelch/pagination_responder)
-  - [rails_api_filters](https://cagit.careerbuilder.com/zwelch/rails_api_filters)
-  - [rails_api_sortable](https://cagit.careerbuilder.com/zwelch/rails_api_sortable)
-
 2. Runs `bundle`
 
 3. Runs the following generators
   - `rspec:install`
-  - `responders:install`
   - `cap install`
 
-4. Removes `ActionView` and `Sprockets` from stack
+4. Configures rspec to exclude view, route, and controller specs
 
-5. Adds json as default format for routes
+5. Configures New Relic
 
-6. Configures rspec to exclude view, route, and controller specs
+6. Configures Solano
 
-7. Hooks up `JsonResponder` and `PaginationResponder` to responder chain
+7. Configures Capistrano
 
-8. Adds template for controller scaffold
-
-9. Configures New Relic
-
-10. Configures Solano
-
-11. Configures Capistrano
-
-12. Creates sample config files and git ignores the original ones
+8. Creates sample config files and git ignores the original ones
   - config/database.yml
   - config/secrets.yml
 
-13. Replaces README with markdown
+9. Replaces README with markdown
 
-14. Customizes .gitignore file
+10. Customizes .gitignore file
 
-15. Creates initial github commit
+11. Creates initial github commit

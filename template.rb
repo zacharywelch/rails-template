@@ -1,4 +1,4 @@
-@path = "https://raw.githubusercontent.com/zacharywelch/rails-api-template/master/templates"
+@path = "https://raw.githubusercontent.com/zacharywelch/rails-template/master/templates"
 
 get "#{@path}/README.md", 'README.md'
 remove_file 'README.rdoc'
@@ -13,13 +13,8 @@ create_file 'Gemfile'
 add_source 'https://rubygems.org'
 
 gem 'rails', '4.2.0'
-gem 'rails-api'
-gem 'jbuilder'
-gem 'responders'
-gem 'json_responder', git: 'git@cagit.careerbuilder.com:zwelch/json_responder.git'
-gem 'pagination_responder', git: 'git@cagit.careerbuilder.com:zwelch/pagination_responder.git'
-gem 'rails_api_filters', git: 'git@cagit.careerbuilder.com:zwelch/rails_api_filters.git'
-gem 'rails_api_sortable', git: 'git@cagit.careerbuilder.com:zwelch/rails_api_sortable.git'
+gem 'jquery-rails'
+gem 'turbolinks'
 gem 'faker'
 gem 'kaminari'
 gem 'newrelic_rpm'
@@ -56,7 +51,6 @@ end
 run 'bundle install'
 
 generate 'rspec:install'
-generate 'responders:install'
 
 inject_into_file 'spec/rails_helper.rb',
   after: /require\s+['|"]rspec\/rails['|"]/ do <<-'RUBY'
@@ -94,10 +88,6 @@ get "#{@path}/config/deploy/production.rb", 'config/deploy/production.rb', force
 get "#{@path}/config/deploy/staging.rb", 'config/deploy/staging.rb', force: true
 gsub_file 'config/deploy.rb', /my_app_name/, @app_name
 
-gsub_file "config/application.rb", /require "rails"/, '# require "rails"'
-gsub_file "config/application.rb", /require "action_view\/railtie"/, '# require "action_view/railtie"'
-gsub_file "config/application.rb", /require "sprockets\/railtie"/, '# require "sprockets/railtie"'
-
 gsub_file "config/environments/production.rb", /:debug/, ':info'
 
 get "#{@path}/config/initializers/exception_notification.rb", 'config/initializers/exception_notification.rb', force: true
@@ -122,15 +112,6 @@ RUBY
 
 gsub_file "config/environments/production.rb", /# config\.log_tags = \[ :subdomain, :uuid \]/, "config.log_tags = [:uuid, :remote_ip, :authorization]"
 
-create_file "config/routes.rb", force: true do <<-'RUBY'
-Rails.application.routes.draw do
-  scope defaults: { format: :json } do
-    # resources :users
-  end
-end
-RUBY
-end
-
 environment do <<-'RUBY'
 
     config.autoload_paths += %W(#{config.root}/lib)
@@ -143,10 +124,6 @@ environment do <<-'RUBY'
     config.log_tags = [:uuid, :remote_ip, :authorization]
 RUBY
 end
-
-get "#{@path}/lib/application_responder.rb", 'lib/application_responder.rb', force: true
-get "#{@path}/app/controllers/application_controller.rb", 'app/controllers/application_controller.rb', force: true
-get "#{@path}/lib/templates/rails/responders_controller/controller.rb", 'lib/templates/rails/responders_controller/controller.rb', force: true
 
 create_file 'config/environments/staging.rb', File.read('config/environments/production.rb')
 
