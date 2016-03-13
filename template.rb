@@ -12,9 +12,7 @@ create_file 'Gemfile'
 
 add_source 'https://rubygems.org'
 
-gem 'rails', '4.2.0'
-gem 'jquery-rails'
-gem 'turbolinks'
+gem 'rails', '~> 4.2.5'
 gem 'faker'
 gem 'kaminari'
 gem 'newrelic_rpm'
@@ -22,7 +20,20 @@ gem 'solano'
 gem 'capistrano'
 gem 'capistrano-bundler'
 gem 'capistrano-rvm'
+gem 'capistrano-rails'
 gem 'exception_notification'
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'jquery-rails'
+gem 'turbolinks'
+gem 'jbuilder', '~> 2.0'
+gem 'sdoc', '~> 0.4.0', group: :doc
+
+# Use ActiveModel has_secure_password
+# gem 'bcrypt', '~> 3.1.7'
+# See https://github.com/rails/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
 
 append_to_file 'Gemfile', "\n\n\n"
 
@@ -36,6 +47,7 @@ gem_group :development, :test do
   gem 'factory_girl_rails'
   gem 'byebug'
   gem 'sqlite3'
+  gem 'web-console', '~> 2.0'
 end
 
 gem_group :test do
