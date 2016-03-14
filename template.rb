@@ -28,12 +28,14 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'okcomputer'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+
+gem 'sdoc', '~> 0.4.0', group: :doc
 
 append_to_file 'Gemfile', "\n\n\n"
 
@@ -53,6 +55,7 @@ end
 gem_group :test do
   gem 'simplecov', require: false
   gem 'shoulda-matchers', '~> 3.0'
+  gem 'codeclimate-test-reporter', require: nil
 end
 
 gem_group :development, :staging, :production do
@@ -67,6 +70,8 @@ generate 'rspec:install'
 inject_into_file 'spec/rails_helper.rb',
   after: /require\s+['|"]rspec\/rails['|"]/ do <<-'RUBY'
 
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 
 require 'simplecov'
 SimpleCov.start
@@ -82,13 +87,6 @@ get "#{@path}/spec/support/shoulda_helper.rb", 'spec/support/shoulda_helper.rb',
 get "#{@path}/.gitignore", '.gitignore', force: true
 
 run "newrelic install --license_key='d445e66d0037c4d9dfe1eb38137ff88c0c606455' #{@app_name}"
-gsub_file "config/newrelic.yml", /log_level: info/, <<-'RUBY'
-log_level: info
-
-  # Prevent NewRelic to track requests that match the following criteria
-  rules:
-    ignore_url_regexes: ['AVAILABILITY_MONITORING']
-RUBY
 
 get "#{@path}/config/solano.yml", 'config/solano.yml'
 get "#{@path}/lib/tasks/solano.rake", 'lib/tasks/solano.rake'
@@ -102,6 +100,7 @@ gsub_file 'config/deploy.rb', /my_app_name/, @app_name
 
 gsub_file "config/environments/production.rb", /:debug/, ':info'
 
+get "#{@path}/config/initializers/okcomputer.rb", 'config/initializers/okcomputer.rb', force: true
 get "#{@path}/config/initializers/exception_notification.rb", 'config/initializers/exception_notification.rb', force: true
 gsub_file "config/initializers/exception_notification.rb", /my_app_name/, @app_name
 gsub_file "config/environments/production.rb", /# config.action_mailer.raise_delivery_errors = false/, <<-'RUBY'
@@ -138,6 +137,9 @@ RUBY
 end
 
 create_file 'config/environments/staging.rb', File.read('config/environments/production.rb')
+
+get "#{@path}/.codeclimate.yml", '.codeclimate.yml'
+get "#{@path}/.rubocop.yml", '.rubocop.yml'
 
 after_bundle do
   git :init
