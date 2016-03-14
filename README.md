@@ -11,6 +11,7 @@ rails new [app_name] --skip-test-unit -m https://raw.githubusercontent.com/zacha
 ## What it does
 
 1. Adds the following gems
+  - [jbuilder](https://github.com/rails/jbuilder)
   - [faker](https://github.com/stympy/faker)
   - [kaminari](https://github.com/amatsuda/kaminari)
   - [annotate](https://github.com/ctran/annotate_models)
@@ -20,7 +21,10 @@ rails new [app_name] --skip-test-unit -m https://raw.githubusercontent.com/zacha
   - [capistrano](https://github.com/capistrano/capistrano)
   - [capistrano-rvm](https://github.com/capistrano/rvm)
   - [capistrano-bundler](https://github.com/capistrano/bundler)
+  - [capistrano-rails](https://github/capistrano/rails)
   - [solano](https://github.com/solanolabs/solano)
+  - [okcomputer](https://github.com/sportngin/okcomputer)
+  - [codeclimate-test-reporter](https://github.com/codeclimate/ruby-test-reporter)
 
 2. Runs `bundle`
 
@@ -36,12 +40,24 @@ rails new [app_name] --skip-test-unit -m https://raw.githubusercontent.com/zacha
 
 7. Configures Capistrano
 
-8. Creates sample config files and git ignores the original ones
+8. Configures Code Climate
+
+9. Creates sample config files and git ignores the original ones
   - config/database.yml
   - config/secrets.yml
 
-9. Replaces README with markdown
+10. Replaces README with markdown
 
-10. Customizes .gitignore file
+11. Customizes .gitignore file
 
-11. Creates initial github commit
+12. Creates initial github commit
+
+## Additional steps
+
+### Code Climate
+Replace the badge placeholders in `README.md` with the markdown snippets
+from Code Climate.
+
+### Solano
+Replace the badge placeholders in `README.md` with the markdown snippets
+from Solano.
