@@ -90,6 +90,11 @@ run "newrelic install --license_key='d445e66d0037c4d9dfe1eb38137ff88c0c606455' #
 
 get "#{@path}/config/solano.yml", 'config/solano.yml'
 get "#{@path}/lib/tasks/solano.rake", 'lib/tasks/solano.rake'
+get "#{@path}/.codeclimate.yml", '.codeclimate.yml'
+get "#{@path}/config/.rubocop.yml", 'config/.rubocop.yml'
+get "#{@path}/config/.eslintrc", 'config/.eslintrc'
+get "#{@path}/config/.coffeelint.json", 'config/.coffeelint.json'
+
 
 run 'bundle exec cap install'
 get "#{@path}/Capfile", 'Capfile', force: true
@@ -137,9 +142,6 @@ RUBY
 end
 
 create_file 'config/environments/staging.rb', File.read('config/environments/production.rb')
-
-get "#{@path}/.codeclimate.yml", '.codeclimate.yml'
-get "#{@path}/.rubocop.yml", '.rubocop.yml'
 
 after_bundle do
   git :init
