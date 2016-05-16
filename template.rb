@@ -121,6 +121,7 @@ gsub_file 'config/deploy.rb', /my_app_name/, @app_name
 
 gsub_file "config/environments/production.rb", /:debug/, ':info'
 
+get "#{@path}/config/initializers/activerecord_sql_adapter.rb", 'config/initializers/activerecord_sql_adapter.rb', force: true
 get "#{@path}/config/initializers/okcomputer.rb", 'config/initializers/okcomputer.rb', force: true
 get "#{@path}/config/initializers/exception_notification.rb", 'config/initializers/exception_notification.rb', force: true
 get "#{@path}/config/initializers/remote_ip.rb", 'config/initializers/remote_ip.rb', force: true
