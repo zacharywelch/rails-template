@@ -36,6 +36,10 @@ Run the seeds
 
     $ rake db:seed
 
+Populate with sample data
+
+    $ rake db:populate
+
 Run tests
 
     $ rspec spec
