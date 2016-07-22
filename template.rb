@@ -20,7 +20,6 @@ gem 'rails', '~> 4.2.5'
 gem 'faker'
 gem 'kaminari'
 gem 'newrelic_rpm'
-gem 'solano'
 gem 'exception_notification'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -104,8 +103,6 @@ get "#{@path}/.gitignore", '.gitignore', force: true
 
 run "newrelic install --license_key='d445e66d0037c4d9dfe1eb38137ff88c0c606455' #{@app_name}"
 
-get "#{@path}/config/solano.yml", 'config/solano.yml'
-get "#{@path}/lib/tasks/solano.rake", 'lib/tasks/solano.rake'
 get "#{@path}/.codeclimate.yml", '.codeclimate.yml'
 get "#{@path}/config/.rubocop.yml", 'config/.rubocop.yml'
 get "#{@path}/config/.eslintrc", 'config/.eslintrc'
