@@ -28,6 +28,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'okcomputer'
+gem 'lograge'
+gem 'fluentd'
+gem 'fluent-plugin-record-modifier'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -134,9 +137,6 @@ config.action_mailer.raise_delivery_errors = true
   }
 RUBY
 
-gsub_file "config/environments/production.rb", /# Prepend all log lines with the following tags.\n/, ""
-gsub_file "config/environments/production.rb", /# config\.log_tags = \[ :subdomain, :uuid \]\n/, ""
-
 environment do <<-'RUBY'
 
     config.autoload_paths += %W(#{config.root}/lib)
@@ -146,12 +146,47 @@ environment do <<-'RUBY'
                                controller_specs: false
     end
 
-    # Prepend all log lines with the following tags.
-    config.log_tags = [:uuid,
-                       :remote_ip,
-                       lambda { |req| req.authorization.split(':').first if req.authorization }]
+    # Lograge configuration
+    config.lograge.enabled = true
+    config.lograge.formatter = Lograge::Formatters::Json.new
+    config.lograge.custom_options = lambda do |event|
+      {
+        date_time: Time.current,
+        uuid: event.payload[:uuid],
+        remote_ip: event.payload[:remote_ip],
+        params: event.payload[:params]
+          .except('controller', 'action', 'locale', 'format', '_method', 'id')
+      }
+    end
 RUBY
 end
+
+inject_into_file 'config/environments/development.rb', after: /# config.action_view.raise_on_missing_translations = true\n/ do <<-'RUBY'
+
+  # Lograge configuration
+  config.lograge.keep_original_rails_log = true
+  config.lograge.logger = ActiveSupport::Logger.new "#{Rails.root}/log/#{Rails.env}_lograge.log"
+RUBY
+end
+
+inject_into_file 'config/environments/test.rb', after: /# config.action_view.raise_on_missing_translations = true\n/ do <<-'RUBY'
+
+  # Lograge configuration
+  config.lograge.keep_original_rails_log = true
+  config.lograge.logger = ActiveSupport::Logger.new "#{Rails.root}/log/#{Rails.env}_lograge.log"
+RUBY
+end
+
+gsub_file "config/environments/production.rb", /# Prepend all log lines with the following tags.\n/, ""
+gsub_file "config/environments/production.rb", /# config\.log_tags = \[ :subdomain, :uuid \]\n/, ""
+gsub_file "config/environments/production.rb", /config.log_formatter =/, "# config.log_formatter ="
+inject_into_file 'app/controllers/application_controller.rb', after: /class ApplicationController < ActionController::Base\n/ do <<-'RUBY'
+  include Logging
+
+RUBY
+end
+get "#{@path}/app/controllers/concerns/logging.rb", 'app/controllers/concerns/logging.rb'
+get "#{@path}/config/fluentd.conf", 'config/fluentd.conf'
 
 create_file 'config/environments/staging.rb', File.read('config/environments/production.rb')
 

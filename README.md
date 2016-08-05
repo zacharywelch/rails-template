@@ -36,6 +36,9 @@ rails new [app_name] --skip-test-unit -m https://raw.githubusercontent.com/zacha
   - [exception_notification](https://github.com/smartinez87/exception_notification)
   - [byebug](https://github.com/deivid-rodriguez/byebug)
   - [okcomputer](https://github.com/sportngin/okcomputer)
+  - [lograge](https://github.com/roidrage/lograge)
+  - [fluentd](https://github.com/fluent/fluentd)
+  - [fluent-plugin-record-modifier](https://github.com/repeatedly/fluent-plugin-record-modifier)
 
 2. Runs `bundle`
 
@@ -48,15 +51,17 @@ rails new [app_name] --skip-test-unit -m https://raw.githubusercontent.com/zacha
 
 6. Configures Code Climate
 
-7. Creates sample config files and git ignores the original ones
+7. Configures lograge and fluentd, to be consummed from Sumo Logic
+
+8. Creates sample config files and git ignores the original ones
   - config/database.yml
   - config/secrets.yml
 
-8. Replaces README with markdown
+9. Replaces README with markdown
 
-9. Customizes .gitignore file
+10. Customizes .gitignore file
 
-10. Creates initial github commit
+11. Creates initial github commit
 
 ## Additional steps
 
