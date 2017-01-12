@@ -17,7 +17,7 @@ See our [getting started with Rails](https://cagit.careerbuilder.com/CorpAppsCB/
 See our [installation](INSTALLATION.md) steps.
 
 ## Technology Stack
-See [rails-template](https://cagit.careerbuilder.com/zwelch/rails-template).
+See [rails-template](https://cagit.careerbuilder.com/CorpAppsCB/rails-template).
 
 ## Contents
 1. **TODO** To be described
